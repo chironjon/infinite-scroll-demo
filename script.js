@@ -8,9 +8,14 @@ let photosArray = [];
 let initialLoad = true;
 
 // Unsplash API
-let count = 5;
+let initialCount = 5;
 const apiKey = 'FT0aoRGxANFUIEdOchHRp79evoHl29yZWHVkFhr_rG8';
-let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${initialCount}`;
+
+// update api w/ new count
+function updateApiUrlWithNewCount (imgCount) {
+  apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${imgCount}`;
+}
 
 // check if all images were loaded
 function imageLoaded() {
@@ -18,7 +23,6 @@ function imageLoaded() {
   if (imagesLoaded === totalImages) {
     ready = true;
     loader.hidden = true;
-    count = 30;
   }
 }
 
@@ -37,17 +41,12 @@ function displayPhotos() {
   photosArray.forEach((photo) => {
     // create <a></a> to link to unsplash
     const item = document.createElement('a');
-    // item.setAttribute('href', photo.links.html);
-    // item.setAttribute('target', '_blank');
     setAttributes(item, {
       href: photo.links.html,
       target: '_blank'
     });
     // Create <img> for photo
     const img = document.createElement('img');
-    // img.setAttribute('src', photo.urls.regular);
-    // img.setAttribute('alt', photo.alt_description);
-    // img.setAttribute('title', photo.alt_description);
     setAttributes(img, {
       src: photo.urls.regular,
       alt: photo.alt_description,
@@ -67,6 +66,10 @@ async function getPhotos() {
     const response = await fetch(apiUrl);
     photosArray = await response.json();
     displayPhotos();
+    if (initialLoad) {
+      updateApiUrlWithNewCount(30);
+      initialLoad = false;
+    }
   } catch(error) {
     // Catch Error
   }
