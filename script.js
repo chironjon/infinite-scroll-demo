@@ -1,7 +1,7 @@
 const imageContainer = document.getElementById('image-container');
 const loader = document.getElementById('loader');
 
-let ready = false;
+let readyToLoad = false;
 let imagesLoaded = 0;
 let totalImages = 0;
 let photosArray = [];
@@ -21,7 +21,7 @@ function updateApiUrlWithNewCount (imgCount) {
 function imageLoaded() {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
-    ready = true;
+    readyToLoad = true;
     loader.hidden = true;
   }
 }
@@ -77,8 +77,8 @@ async function getPhotos() {
 
 //check to see if scrolling near bottom of page, load more photos
 window.addEventListener('scroll', () => {
-  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready) {
-    ready = false;
+  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && readyToLoad) {
+    readyToLoad = false;
     getPhotos();
   }
 })

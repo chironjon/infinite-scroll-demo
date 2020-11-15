@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
 
 html {
-  /* restricts padding from exceeding viewport width */
   box-sizing: border-box; 
 }
 
